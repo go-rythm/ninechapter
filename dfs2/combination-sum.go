@@ -49,3 +49,52 @@ func removeDuplicatesAndSort(nums []int) []int {
 	}
 	return nums[:slow]
 }
+
+/**
+ * @param nums: A list of integers.
+ * @return: A list of permutations.
+ *          we will sort your return value in output
+ */
+// Permute 生成所有可能的排列组合
+func Permute(nums []int) [][]int {
+	var results [][]int
+	if nums == nil {
+		return results
+	}
+
+	visited := make([]bool, len(nums))
+	dfs3(nums, visited, []int{}, &results)
+	return results
+}
+
+// dfs 递归生成排列组合
+// 递归的定义
+func dfs3(nums []int,
+	visited []bool,
+	permutation []int,
+	results *[][]int) {
+
+	// 递归的出口
+	if len(permutation) == len(nums) {
+		// 深拷贝当前排列并添加到结果集中
+		temp := make([]int, len(permutation))
+		copy(temp, permutation)
+		*results = append(*results, temp)
+		return
+	}
+
+	// 递归的拆解
+	for i := 0; i < len(nums); i++ {
+		if visited[i] {
+			continue
+		}
+		// 添加当前数字到排列中，并标记为已访问
+		permutation = append(permutation, nums[i])
+		visited[i] = true
+		// 递归继续生成排列
+		dfs3(nums, visited, permutation, results)
+		// 回溯，移除最后一个数字，并标记为未访问
+		visited[i] = false
+		permutation = permutation[:len(permutation)-1]
+	}
+}

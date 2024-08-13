@@ -19,14 +19,23 @@ func Subsets(nums []int) [][]int {
 	return *res
 }
 
-func dfs(nums []int, index int, subset []int, res *[][]int) {
+// 1. 递归的定义
+func dfs(nums []int,
+	index int,
+	subset []int,
+	res *[][]int) {
+
+	// 3. 递归的出口
 	if index == len(nums) {
 		*res = append(*res, append([]int{}, subset...))
 		return
 	}
 
+	// 2. 递归的拆解
+	// 不选 nums[index]
 	dfs(nums, index+1, subset, res)
 
+	// 选 nums[index]
 	subset = append(subset, nums[index])
 	dfs(nums, index+1, subset, res)
 }
